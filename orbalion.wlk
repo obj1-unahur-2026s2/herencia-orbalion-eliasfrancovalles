@@ -30,6 +30,9 @@ class Luminicos inherits Equipos {
             return super()
         }
     }
+    method cantDeCristalesSolares() = nombresDeCristalesSolares.size()
+    method esDePrestigioUniversal() = self.cantDeCristalesSolares() >= 3 and
+        entrenador.esEliteGalactico() and tecnologias.any({tecnologia => tecnologia.activa()})
 }
 
 class Sinteticos inherits Equipos {
@@ -47,6 +50,8 @@ class Sinteticos inherits Equipos {
             return super()
         }
     }
+    method esDePrestigioUniversal() = estaCertificado and
+        cantDeModulosActivos > 3 and tecnologias.all({tecnologia => tecnologia.activa()})
 }
 
 class Etericos inherits Equipos {

@@ -161,3 +161,112 @@ describe "Checkpoint 2 - Entrenadores de élite galáctica." {
         assert.that(entrenador.esEliteGalactico())
     }
 }
+
+describe "Checkpoint 3 - Equipos de prestigio universal." {
+    test "Equipo lumínico con 3 cristales, entrenador de élite y una tecnología activa → es de prestigio universal." {
+        const pepe = new Entrenadores(
+            cantDeCiclosSolaresDeExp = 12,
+            estaEnSintonia = false,
+            nivelDePrecisionEstrategica = 90,
+            rol = "Estratega Cuántico"
+        )
+
+        const nucleosGravitacionales = new Tecnologias(
+            nombre = "nucleos gravitacionales",
+            valorEnergetico = 200,
+            activa = true
+        )
+
+        const grupo = new Luminicos(
+            nombre = "Galaxy",
+            energiaBase = 100,
+            entrenador = pepe,
+            tecnologias = [nucleosGravitacionales],
+            nivelDeRadiacion = 1000,
+            nombresDeCristalesSolares = ["Cristal 1", "Cristal 2", "Cristal 3"]
+        )
+
+
+        assert.equals(3, grupo.cantDeCristalesSolares())
+        assert.that(pepe.esEliteGalactico())
+        assert.that(grupo.esDePrestigioUniversal())
+    }
+
+    test "Equipo sintético certificado con 4 módulos y todas las tecnologías activas → es de prestigio." {
+        const felipe = new Entrenadores(
+            cantDeCiclosSolaresDeExp = 30,
+            estaEnSintonia = false,
+            nivelDePrecisionEstrategica = 90,
+            rol = "Estratega Cuántico"
+        )
+
+        const nucleosGravitacionales = new Tecnologias(
+            nombre = "nucleos gravitacionales",
+            valorEnergetico = 200,
+            activa = true
+        )
+
+        const grupo = new Sinteticos(
+            nombre = "Galaxy",
+            energiaBase = 100,
+            entrenador = felipe,
+            tecnologias = [nucleosGravitacionales],
+            nivelDeProcesamientoCentral = 40,
+            cantDeModulosActivos = 4,
+            estaCertificado = true
+        )
+
+
+        assert.equals(4, grupo.cantDeModulosActivos())
+        assert.that(grupo.estaCertificado())
+        assert.that(grupo.esDePrestigioUniversal())
+    }
+
+    test "Equipo lumínico con menos de 3 cristales no es de prestigio universal." {
+        const entrenador = new Entrenadores(
+            cantDeCiclosSolaresDeExp = 12,
+            estaEnSintonia = false,
+            nivelDePrecisionEstrategica = 90,
+            rol = "Estratega Cuántico"
+        )
+        const tecnologia = new Tecnologias(
+            nombre = "nucleo gravitacional",
+            valorEnergetico = 200,
+            activa = true
+        )
+        const equipo = new Luminicos(
+            nombre = "Aurora",
+            energiaBase = 100,
+            entrenador = entrenador,
+            tecnologias = [tecnologia],
+            nivelDeRadiacion = 1000,
+            nombresDeCristalesSolares = ["Cristal 1", "Cristal 2"]
+        )
+
+        assert.notThat(equipo.esDePrestigioUniversal())
+    }
+
+    test "Equipo sintético con una tecnología inactiva no es de prestigio universal." {
+        const tecnologiaActiva = new Tecnologias(
+            nombre = "nucleo gravitacional",
+            valorEnergetico = 200,
+            activa = true
+        )
+        const tecnologiaInactiva = new Tecnologias(
+            nombre = "interfaz mental",
+            valorEnergetico = 100,
+            activa = false
+        )
+        const equipo = new Sinteticos(
+            nombre = "Nexo",
+            energiaBase = 100,
+            entrenador = null,
+            tecnologias = [tecnologiaActiva, tecnologiaInactiva],
+            nivelDeProcesamientoCentral = 40,
+            cantDeModulosActivos = 4,
+            estaCertificado = true
+        )
+
+        assert.notThat(equipo.esDePrestigioUniversal())
+    }
+}
