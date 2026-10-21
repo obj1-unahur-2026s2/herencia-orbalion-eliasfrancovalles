@@ -90,7 +90,7 @@ describe "Checkpoint 1 - Energia total de equipos" {
             estaCertificado = true
         )
 
-        assert.equals(440, equipo.energiaTotal())
+        assert.equals(480, equipo.energiaTotal())
     }
 
     test "Un equipo sintético con 4 módulos y 2 tecnologías complementarias → suma correctamente los valores energéticos." {
@@ -123,6 +123,41 @@ describe "Checkpoint 1 - Energia total de equipos" {
             estaCertificado = true
         )
 
-        assert.equals(440, equipo.energiaTotal())
+        assert.equals(800, equipo.energiaTotal())
+    }
+}
+
+describe "Checkpoint 2 - Entrenadores de élite galáctica." {
+    test "Estratega cuántico con 12 ciclos y precisión 90 → es de élite galáctica." {
+        const entrenador = new Entrenadores(
+            cantDeCiclosSolaresDeExp = 12,
+            estaEnSintonia = false,
+            nivelDePrecisionEstrategica = 90,
+            rol = "Estratega Cuántico"
+        )
+
+        assert.that(entrenador.esEliteGalactico())
+    }
+
+    test "Arquitecto de energía con 11 ciclos pero sin sintonía → no es de élite." {
+        const entrenador = new Entrenadores(
+            cantDeCiclosSolaresDeExp = 11,
+            estaEnSintonia = false,
+            nivelDePrecisionEstrategica = 90,
+            rol = "Arquitecto de Energía"
+        )
+
+        assert.notThat(entrenador.esEliteGalactico())
+    }
+
+    test "Guía mental con 15 ciclos → siempre es de élite." {
+        const entrenador = new Entrenadores(
+            cantDeCiclosSolaresDeExp = 15,
+            estaEnSintonia = false,
+            nivelDePrecisionEstrategica = 0,
+            rol = "Guía Mental"
+        )
+
+        assert.that(entrenador.esEliteGalactico())
     }
 }

@@ -16,4 +16,9 @@ class Entrenadores {
             rol = nuevoRol
         }
     }
+    method esEliteGalactico() = cantDeCiclosSolaresDeExp > 10 and (
+        (rol == "Estratega Cuántico" and nivelDePrecisionEstrategica > 80) or
+        (rol == "Arquitecto de Energía" and estaEnSintonia) or
+        rol == "Guía Mental"
+    )
 }
