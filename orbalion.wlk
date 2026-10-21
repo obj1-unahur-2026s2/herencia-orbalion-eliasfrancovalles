@@ -15,6 +15,7 @@ class Equipos {
         const valoresEnergeticos = tecnologiasActivas.map({tecnologia => tecnologia.valorEnergetico()})
         return energiaBase + valoresEnergeticos.sum()
     }
+    method esDePrestigioUniversal
 }
 
 class Luminicos inherits Equipos {
@@ -31,7 +32,7 @@ class Luminicos inherits Equipos {
         }
     }
     method cantDeCristalesSolares() = nombresDeCristalesSolares.size()
-    method esDePrestigioUniversal() = self.cantDeCristalesSolares() >= 3 and
+    override method esDePrestigioUniversal() = self.cantDeCristalesSolares() >= 3 and
         entrenador.esEliteGalactico() and tecnologias.any({tecnologia => tecnologia.activa()})
 }
 
@@ -50,14 +51,25 @@ class Sinteticos inherits Equipos {
             return super()
         }
     }
-    method esDePrestigioUniversal() = estaCertificado and
+    override method esDePrestigioUniversal() = estaCertificado and
         cantDeModulosActivos > 3 and tecnologias.all({tecnologia => tecnologia.activa()})
 }
 
-class Etericos inherits Equipos {
+class EquipoEterico inherits Equipos {
     const nivelDeFluctuacionDimensional
     const cantDePortalesAbiertos
 
     method nivelDeFluctuacionDimensional() = nivelDeFluctuacionDimensional
     method cantDePortalesAbiertos() = cantDePortalesAbiertos
+
+    override method esDePrestigioUniversal() = nivelDeFluctuacionDimensional > 75 and
+        cantDePortalesAbiertos >= 2 and tecnologias.filter({tecnologia => tecnologia.activa()}).size() >= 2
+    
+    override method energiaTotal() {
+        if(self.esDePrestigioUniversal()) {
+            return super() * 1.15
+        } else {
+            return super()
+        }
+    }
 }

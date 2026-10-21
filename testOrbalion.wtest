@@ -270,3 +270,75 @@ describe "Checkpoint 3 - Equipos de prestigio universal." {
         assert.notThat(equipo.esDePrestigioUniversal())
     }
 }
+
+describe "Checkpoint 4 - Equipos etéricos." {
+    test "Equipo etérico con 3 portales, fluctuación 80 y 2 tecnologías activas → es de prestigio universal." {
+        const tecnologiaUno = new Tecnologias(
+            nombre = "nucleo gravitacional",
+            valorEnergetico = 100,
+            activa = true
+        )
+        const tecnologiaDos = new Tecnologias(
+            nombre = "interfaz mental",
+            valorEnergetico = 200,
+            activa = true
+        )
+        const equipo = new EquipoEterico(
+            nombre = "Umbral",
+            energiaBase = 100,
+            entrenador = null,
+            tecnologias = [tecnologiaUno, tecnologiaDos],
+            nivelDeFluctuacionDimensional = 80,
+            cantDePortalesAbiertos = 3
+        )
+
+        assert.that(equipo.esDePrestigioUniversal())
+    }
+
+    test "Verificar que el incremento del 15% se aplica correctamente." {
+        const tecnologiaUno = new Tecnologias(
+            nombre = "nucleo gravitacional",
+            valorEnergetico = 100,
+            activa = true
+        )
+        const tecnologiaDos = new Tecnologias(
+            nombre = "interfaz mental",
+            valorEnergetico = 200,
+            activa = true
+        )
+        const equipo = new EquipoEterico(
+            nombre = "Umbral",
+            energiaBase = 100,
+            entrenador = null,
+            tecnologias = [tecnologiaUno, tecnologiaDos],
+            nivelDeFluctuacionDimensional = 80,
+            cantDePortalesAbiertos = 3
+        )
+
+        assert.equals(460, equipo.energiaTotal())
+    }
+
+    test "Verificar que un equipo etérico que no cumple las condiciones no suma el 15%." {
+        const tecnologiaUno = new Tecnologias(
+            nombre = "nucleo gravitacional",
+            valorEnergetico = 100,
+            activa = true
+        )
+        const tecnologiaDos = new Tecnologias(
+            nombre = "interfaz mental",
+            valorEnergetico = 200,
+            activa = true
+        )
+        const equipo = new EquipoEterico(
+            nombre = "Umbral",
+            energiaBase = 100,
+            entrenador = null,
+            tecnologias = [tecnologiaUno, tecnologiaDos],
+            nivelDeFluctuacionDimensional = 75,
+            cantDePortalesAbiertos = 3
+        )
+
+        assert.notThat(equipo.esDePrestigioUniversal())
+        assert.equals(400, equipo.energiaTotal())
+    }
+}
