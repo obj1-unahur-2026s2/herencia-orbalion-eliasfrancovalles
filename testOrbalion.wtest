@@ -1,0 +1,128 @@
+import tecnologias.*
+import orbalion.*
+import entrenadores.*
+
+describe "Checkpoint 1 - Energia total de equipos" {
+    test "Un entrenador no puede tener un rol distinto a los autorizados por la FOZ" {
+        const entrenador = new Entrenadores(
+            cantDeCiclosSolaresDeExp = 12,
+            estaEnSintonia = true,
+            nivelDePrecisionEstrategica = 90,
+            rol = "Estratega Cuántico"
+        )
+
+        assert.throwsExceptionWithMessage(
+            "Rol no homologado por la FOZ", {entrenador.cambiarRol("Piloto Estelar")}
+        )
+    }
+
+    test "Un equipo luminico con radiacion > 5000 y sin tecnologias activas -> su energia total es su energia base" {
+        const tomas = new Entrenadores(
+            cantDeCiclosSolaresDeExp = 32,
+            estaEnSintonia = true,
+            nivelDePrecisionEstrategica = 90,
+            rol = "Estratega Cuántico"
+        )
+        
+        const nucleosGravitacionales = new Tecnologias(
+            nombre = "nucleos gravitacionales",
+            valorEnergetico = 200,
+            activa = false
+        )
+
+        const equipo = new Luminicos(
+            nombre = "Aurora",
+            energiaBase = 100,
+            entrenador = tomas,
+            tecnologias = [nucleosGravitacionales],
+            nivelDeRadiacion = 6000
+        )
+
+        assert.equals(100, equipo.energiaTotal())
+    }
+
+    test "Un equipo lumínico con radiación < 5000 → obtiene el bono del 10%." {
+        const mateo = new Entrenadores(
+            cantDeCiclosSolaresDeExp = 32,
+            estaEnSintonia = true,
+            nivelDePrecisionEstrategica = 90,
+            rol = "Estratega Cuántico"
+        )
+        
+        const interfacesDeProyeccionMental = new Tecnologias(
+            nombre = "interfaces de proyeccion mental",
+            valorEnergetico = 500,
+            activa = true
+        )
+
+        const equipo = new Luminicos(
+            nombre = "Aurora",
+            energiaBase = 100,
+            entrenador = mateo,
+            tecnologias = [interfacesDeProyeccionMental],
+            nivelDeRadiacion = 400
+        )
+
+        assert.equals(660, equipo.energiaTotal())
+    }
+
+    test "Un equipo sintético con 6 módulos → aplica correctamente la penalización del 20%." {
+        const tomas = new Entrenadores(
+            cantDeCiclosSolaresDeExp = 32,
+            estaEnSintonia = true,
+            nivelDePrecisionEstrategica = 90,
+            rol = "Estratega Cuántico"
+        )
+        
+        const interfacesDeProyeccionMental = new Tecnologias(
+            nombre = "interfaces de proyeccion mental",
+            valorEnergetico = 500,
+            activa = true
+        )
+
+        const equipo = new Sinteticos(
+            nombre = "Aurora",
+            energiaBase = 100,
+            entrenador = tomas,
+            tecnologias = [interfacesDeProyeccionMental],
+            nivelDeProcesamientoCentral = 0,
+            cantDeModulosActivos = 6,
+            estaCertificado = true
+        )
+
+        assert.equals(440, equipo.energiaTotal())
+    }
+
+    test "Un equipo sintético con 4 módulos y 2 tecnologías complementarias → suma correctamente los valores energéticos." {
+        const mateo = new Entrenadores(
+            cantDeCiclosSolaresDeExp = 32,
+            estaEnSintonia = true,
+            nivelDePrecisionEstrategica = 90,
+            rol = "Estratega Cuántico"
+        )
+        
+        const nucleosGravitacionales = new Tecnologias(
+            nombre = "nucleos gravitacionales",
+            valorEnergetico = 200,
+            activa = true
+        )
+
+        const interfacesDeProyeccionMental = new Tecnologias(
+            nombre = "interfaces de proyeccion mental",
+            valorEnergetico = 500,
+            activa = true
+        )
+
+        const equipo = new Sinteticos(
+            nombre = "Aurora",
+            energiaBase = 100,
+            entrenador = mateo,
+            tecnologias = [nucleosGravitacionales, interfacesDeProyeccionMental],
+            nivelDeProcesamientoCentral = 40,
+            cantDeModulosActivos = 4,
+            estaCertificado = true
+        )
+
+        assert.equals(440, equipo.energiaTotal())
+    }
+}
